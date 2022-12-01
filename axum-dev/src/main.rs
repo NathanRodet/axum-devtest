@@ -1,4 +1,4 @@
-use axum_dev::run;
+use axum_dev::server::run;
 
 #[tokio::main]
 async fn main() {

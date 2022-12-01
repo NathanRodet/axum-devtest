@@ -1,3 +1,3 @@
-pub mod message;
+pub mod shared_data;
 pub mod cors;
 

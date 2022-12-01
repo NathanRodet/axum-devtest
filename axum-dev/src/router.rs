@@ -1,6 +1,6 @@
 use axum::{
     routing::{get, post},
-    Router,
+    Router, Extension,
 };
 
 use crate::routes::hello_world::hello_world;
@@ -11,12 +11,15 @@ use crate::routes::query_params::query_params;
 use crate::routes::query_params::query_params_id;
 use crate::routes::user_agent::user_agent;
 use crate::routes::custom_headers::custom_headers;
+use crate::routes::middleware_message::middleware_message;
 use crate::middlewares::cors::create_cors;
+use crate::middlewares::shared_data::message;
 
 
 pub async fn create_routes() -> Router {
 
     let cors = create_cors().await;
+    let shared_data = message().await;
 
     Router::new()
         .route("/", get(hello_world))
@@ -27,5 +30,7 @@ pub async fn create_routes() -> Router {
         .route("/query_params_id", get(query_params_id))
         .route("/user_agent", get(user_agent))
         .route("/custom_headers", get(custom_headers))
+        .route("/display_shared_data", get(middleware_message))
         .layer(cors)
+        .layer(Extension(shared_data))
 }

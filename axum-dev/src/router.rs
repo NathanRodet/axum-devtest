@@ -1,8 +1,7 @@
 use axum::{
     routing::{get, post},
-    Router, http::Method,
+    Router,
 };
-use tower_http::cors::{CorsLayer, Any};
 
 use crate::routes::hello_world::hello_world;
 use crate::routes::path_variables::path_variables;
@@ -12,12 +11,12 @@ use crate::routes::query_params::query_params;
 use crate::routes::query_params::query_params_id;
 use crate::routes::user_agent::user_agent;
 use crate::routes::custom_headers::custom_headers;
+use crate::middlewares::cors::create_cors;
 
-pub fn create_routes() -> Router {
 
-    let cors = CorsLayer::new()
-    .allow_methods([Method::GET, Method::POST])
-    .allow_origin(Any);
+pub async fn create_routes() -> Router {
+
+    let cors = create_cors().await;
 
     Router::new()
         .route("/", get(hello_world))

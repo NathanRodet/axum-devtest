@@ -3,7 +3,7 @@ use serde::{Serialize, Deserialize};
 use std::collections::HashMap;
 
 // `Query` gives you the query parameters and deserializes them.
-pub async fn query_params(Query(params): Query<HashMap<String, String>>) {
+pub async fn get_query_params(Query(params): Query<HashMap<String, String>>) {
     for (key, value) in params {
         println!("{} = {}", key, value);
     }
@@ -14,6 +14,6 @@ pub struct QueryParams {
     id: i32
 }
 
-pub async fn query_params_id(Query(query): Query<QueryParams>) -> Json<QueryParams> {  
+pub async fn get_query_params_id(Query(query): Query<QueryParams>) -> Json<QueryParams> {  
     Json(query)
 }
